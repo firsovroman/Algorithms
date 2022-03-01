@@ -32,16 +32,16 @@ public class Quicksort {
         int rightIndex = to;
         int leftIndex = from;
 
-        int referenceElement = arr[from + (to - from)/2];
+        int pivot = arr[from + (to - from)/2];
 
 
         while (leftIndex <= rightIndex) {
 
-            while (arr[leftIndex] < referenceElement) {
+            while (arr[leftIndex] < pivot) {
                 leftIndex++;
             }
 
-            while (arr[rightIndex] > referenceElement) {
+            while (arr[rightIndex] > pivot) {
                 rightIndex--;
             }
 
