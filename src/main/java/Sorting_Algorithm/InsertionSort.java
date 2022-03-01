@@ -8,7 +8,6 @@ public class InsertionSort {
 
         int [] array = new int [] {34, 42, 35, 64, 15, 23, 12, 23, 88, 76};
         insertionSort(array);
-
         System.out.println(Arrays.toString(array));
     }
 
