@@ -26,7 +26,6 @@ public class Quicksort {
         }
     }
 
-
     public static int partition(int [] arr, int from, int to) {
 
         int rightIndex = to;
