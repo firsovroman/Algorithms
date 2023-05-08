@@ -1,4 +1,7 @@
 # Algorithms
 
-In this repository, simple search and sorting algorithms and tree search tasks.
+In this repository, examples for:
 
+ * search algorithms
+ * sorting algorithms
+ * tree search tasks
