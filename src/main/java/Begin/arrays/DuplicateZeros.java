@@ -4,9 +4,11 @@ import java.util.Arrays;
 
 
 /**
- Given a fixed-length integer array arr, duplicate each occurrence of zero, shifting the remaining elements to the right.
+ Учитывая целочисленный массив фиксированной длины arr, дублируйте каждое вхождение нуля, сдвигая оставшиеся элементы вправо.
 
- Note that elements beyond the length of the original array are not written. Do the above modifications to the input array in place and do not return anything.
+ Обратите внимание, что элементы, превышающие длину исходного массива, не записываются.
+ Выполните указанные выше изменения во входном массиве.
+ на месте и ничего не возвращать.
 
  Example 1:
 

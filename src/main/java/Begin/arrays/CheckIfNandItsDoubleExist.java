@@ -4,7 +4,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * Given an array arr of integers, check if there exist two indices i and j such that :
+ * Учитывая массив целых чисел, проверьте, существуют ли два индекса i и j такие, что:
  * <p>
  * i != j
  * 0 <= i, j < arr.length

@@ -1,12 +1,12 @@
 package Begin.arrays;
 
 /**
- * Given an array of integers arr, return true if and only if it is a valid mountain array.
- * <p>
- * Recall that arr is a mountain array if and only if:
- * <p>
- * arr.length >= 3
- * There exists some i with 0 < i < arr.length - 1 such that:
+ * Учитывая массив целых чисел arr, возвращайте true тогда и только тогда, когда это действительный горный массив.
+ * <р>
+ * Напомним, что arr является горным массивом тогда и только тогда, когда:
+ * <р>
+ * длина аранжировки >= 3
+ * Существует некоторый i с 0 < i < arr.length - 1 такой, что:
  * arr[0] < arr[1] < ... < arr[i - 1] < arr[i]
  * arr[i] > arr[i + 1] > ... > arr[arr.length - 1]
  */

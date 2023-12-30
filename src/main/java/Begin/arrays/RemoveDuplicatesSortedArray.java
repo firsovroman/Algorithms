@@ -5,20 +5,23 @@ import java.util.Arrays;
 
 
 /**
- * Given an integer array nums sorted in non-decreasing order, remove the duplicates in-place such that each unique element appears only once. The relative order of the elements should be kept the same. Then return the number of unique elements in nums.
- * <p>
- * Example 1:
- * <p>
- * Input: nums = [1,1,2]
- * Output: 2, nums = [1,2,_]
- * Explanation: Your function should return k = 2, with the first two elements of nums being 1 and 2 respectively.
- * It does not matter what you leave beyond the returned k (hence they are underscores).
- * Example 2:
- * <p>
- * Input: nums = [0,0,1,1,1,2,2,3,3,4]
- * Output: 5, nums = [0,1,2,3,4,_,_,_,_,_]
- * Explanation: Your function should return k = 5, with the first five elements of nums being 0, 1, 2, 3, and 4 respectively.
- * It does not matter what you leave beyond the returned k (hence they are underscores).
+ * Учитывая целочисленный массив чисел, отсортированный в неубывающем порядке, удалите дубликаты на месте,
+ * чтобы каждый уникальный элемент появлялся только один раз.
+ * Относительный порядок элементов должен оставаться неизменным.
+ * Затем верните количество уникальных элементов в числах.
+ * <р>
+ * Пример 1:
+ * <р>
+ * Ввод: числа = [1,1,2]
+ * Выход: 2, числа = [1,2,_]
+ * Объяснение: Ваша функция должна возвращать k = 2, причем первые два элемента числа nums равны 1 и 2 соответственно.
+ * Не имеет значения, что вы оставите после возвращаемого k (следовательно, они являются подчеркиванием).
+ * Пример 2:
+ * <р>
+ * Ввод: числа = [0,0,1,1,1,2,2,3,3,4]
+ * Выход: 5, числа = [0,1,2,3,4,_,_,_,_,_]
+ * Объяснение: Ваша функция должна возвращать k = 5, причем первые пять элементов числа nums равны 0, 1, 2, 3 и 4 соответственно.
+ * Не имеет значения, что вы оставите после возвращаемого k (следовательно, они являются подчеркиванием).
  */
 
 public class RemoveDuplicatesSortedArray {

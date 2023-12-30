@@ -4,33 +4,36 @@ import java.util.Arrays;
 
 
 /**
- * You are given two integer arrays nums1 and nums2, sorted in non-decreasing order, and two integers m and n, representing the number of elements in nums1 and nums2 respectively.
+ * Вам даны два целочисленных массива nums1 и nums2, отсортированные в порядке неубывания,
+ * и два целых числа m и n, представляющие количество элементов в nums1 и nums2 соответственно.
  *
- * Merge nums1 and nums2 into a single array sorted in non-decreasing order.
+ * Объедините nums1 и nums2 в один массив, отсортированный в неубывающем порядке.
  *
- * The final sorted array should not be returned by the function, but instead be stored inside the array nums1. To accommodate this, nums1 has a length of m + n, where the first m elements denote the elements that should be merged, and the last n elements are set to 0 and should be ignored. nums2 has a length of n.
+ * Окончательно отсортированный массив не должен возвращаться функцией, а должен храниться внутри массива nums1.
+ * Чтобы учесть это, nums1 имеет длину m + n, где первые m элементов обозначают элементы, которые следует объединить,
+ * а последние n элементов имеют значение 0 и их следует игнорировать. nums2 имеет длину n.
  *
  *
+ * Пример 1:
  *
- * Example 1:
+ * Ввод: nums1 = [1,2,3,0,0,0], m = 3, nums2 = [2,5,6], n = 3
+ * Выход: [1,2,2,3,5,6]
+ * Пояснение: Мы объединяем массивы [1,2,3] и [2,5,6].
+ * Результатом слияния является [1,2,2,3,5,6] с подчеркнутыми элементами, взятыми из nums1.
+ * Пример 2:
  *
- * Input: nums1 = [1,2,3,0,0,0], m = 3, nums2 = [2,5,6], n = 3
- * Output: [1,2,2,3,5,6]
- * Explanation: The arrays we are merging are [1,2,3] and [2,5,6].
- * The result of the merge is [1,2,2,3,5,6] with the underlined elements coming from nums1.
- * Example 2:
+ * Ввод: nums1 = [1], m = 1, nums2 = [], n = 0
+ * Выход: [1]
+ * Пояснение: Мы объединяем массивы [1] и [].
+ * Результат слияния: [1].
+ * Пример 3:
  *
- * Input: nums1 = [1], m = 1, nums2 = [], n = 0
- * Output: [1]
- * Explanation: The arrays we are merging are [1] and [].
- * The result of the merge is [1].
- * Example 3:
- *
- * Input: nums1 = [0], m = 0, nums2 = [1], n = 1
- * Output: [1]
- * Explanation: The arrays we are merging are [] and [1].
- * The result of the merge is [1].
- * Note that because m = 0, there are no elements in nums1. The 0 is only there to ensure the merge result can fit in nu
+ * Ввод: nums1 = [0], m = 0, nums2 = [1], n = 1.
+ * Выход: [1]
+ * Пояснение: Мы объединяем массивы [] и [1].
+ * Результат слияния: [1].
+ * Обратите внимание: поскольку m = 0, в nums1 нет элементов.
+ * 0 нужен только для того, чтобы результат слияния мог поместиться в nu.
  */
 
 public class MergeSortedArray {
