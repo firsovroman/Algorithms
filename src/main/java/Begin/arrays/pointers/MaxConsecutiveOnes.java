@@ -1,4 +1,4 @@
-package Begin.arrays;
+package Begin.arrays.pointers;
 
 
 /**
@@ -13,11 +13,9 @@ package Begin.arrays;
  */
 class MaxConsecutiveOnes {
 
-
     public static void main(String[] args) {
         int[] nums = {1,1,0,1,1,1};
         int[] nums2 = {1,0,1,1,0,1};
-
 
         int result = findMaxConsecutiveOnes(nums);
         int result2 = findMaxConsecutiveOnes(nums2);

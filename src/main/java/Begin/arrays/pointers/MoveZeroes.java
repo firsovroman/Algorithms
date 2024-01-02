@@ -1,19 +1,15 @@
-package Begin.arrays;
+package Begin.arrays.pointers;
 
 import java.util.Arrays;
 
 /**
  * Учитывая целочисленный массив nums, переместите все 0элементы в конец, сохраняя относительный порядок ненулевых элементов.
  * Обратите внимание , что вы должны сделать это на месте, не копируя массив.
- * <p>
+ *
  * Example 1:
- * <p>
- * Input: nums = [0,1,0,3,12]
- * Output: [1,3,12,0,0]
- * Example 2:
- * <p>
- * Input: nums = [0]
- * Output: [0]
+ *      Input: nums = [0,1,0,3,12]
+ *      Output: [1,3,12,0,0]
+ *      Example 2:
  */
 
 public class MoveZeroes {
