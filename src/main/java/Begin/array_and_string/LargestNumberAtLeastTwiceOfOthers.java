@@ -16,17 +16,13 @@ package Begin.array_and_string;
 public class LargestNumberAtLeastTwiceOfOthers {
 
     public static void main(String[] args) {
-
-        int[] arr = {3, 6, 1, 0};
-
+//        int[] arr = {3, 6, 1, 0};
+        int[] arr = {1, 2, 3, 4};
 
         System.out.println(dominantIndex(arr));
-
     }
 
     public static int dominantIndex(int[] nums) {
-
-
         int max = nums[0];
         int maxIndex = 0;
 
@@ -37,15 +33,13 @@ public class LargestNumberAtLeastTwiceOfOthers {
             }
         }
 
-
         for (int n : nums) {
-            if (n != max && max >= 2 * n) {
-                return maxIndex;
+            if (n != max && max < 2 * n) {
+                return -1;
             }
         }
 
-
-        return -1;
+        return maxIndex;
     }
 
 }
