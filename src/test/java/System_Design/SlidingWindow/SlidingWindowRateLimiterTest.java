@@ -1,35 +1,38 @@
 package System_Design.SlidingWindow;
 
-import org.junit.Assert;
 import org.junit.Test;
 
-import java.time.Instant;
 import java.util.Queue;
 import java.util.concurrent.*;
+
+import static org.junit.Assert.*;
 
 public class SlidingWindowRateLimiterTest {
 
     @Test
-    public void testGrantAccess() throws InterruptedException {
+    public void testSlidingWindowRateLimiter() throws InterruptedException {
+        // создаем объект ограничитель с временным окном 1 секунда и вместимостью окна 2 слота
+        SlidingWindowRateLimiter rateLimiter = new SlidingWindowRateLimiter(1, TimeUnit.SECONDS, 2);
 
-        SlidingWindowRateLimiter slidingWindowRateLimiter = new SlidingWindowRateLimiter(60, TimeUnit.SECONDS, 5);
+        // получаем первый доступ
+        assertTrue(rateLimiter.tryAcquire());
 
-        for (int i = 0; i < 5; i++) {
-            System.out.println(slidingWindowRateLimiter.tryAcquire() + " - " + Instant.now());
-            Thread.sleep(15_000);
-        }
+        // ждем половину секунды и получаем второй доступ
+        Thread.sleep(500);
+        assertTrue(rateLimiter.tryAcquire());
 
-        Thread.sleep(5_000);
-        System.out.println("=============");
+        // проверяем что получить доступ после заполнения окна не получится
+        assertFalse(rateLimiter.tryAcquire());
 
+        // ждем 501 миллисекунду, (этого достаточно чтобы освободился первый слот, но не достаточно чтобы освободился второй)
+        Thread.sleep(501);
+        assertTrue(rateLimiter.tryAcquire());
+        assertFalse(rateLimiter.tryAcquire());
 
-        // за 20 секунд окно успевает сместится и освободить 2 элемента из 5
-        Assert.assertTrue(slidingWindowRateLimiter.tryAcquire());
-        Assert.assertTrue(slidingWindowRateLimiter.tryAcquire());
-
-        // а для третьего запроса элемента нет
-        Assert.assertFalse(slidingWindowRateLimiter.tryAcquire());
-
+        // Проверяем, что история выданных разрешений очищается после выхода за пределы окна
+        Thread.sleep(1500);
+        assertTrue(rateLimiter.tryAcquire());
+        assertTrue(rateLimiter.tryAcquire());
     }
 
 
@@ -52,8 +55,8 @@ public class SlidingWindowRateLimiterTest {
         for (int i = 0; i < threadCount; i++) {
             executor.submit(() -> {
                 try {
-                    // Потоки пытаются получить разрешение
                     boolean acquired = rateLimiter.tryAcquire();
+                    // результаты сохраняются
                     permissionAcquisitionAttempts.add(acquired);
                 } finally {
                     latch.countDown();
@@ -72,6 +75,6 @@ public class SlidingWindowRateLimiterTest {
         long actualSuccessfulAcquires = permissionAcquisitionAttempts.stream().filter(Boolean::booleanValue).count();
 
         // количество выданных разрешений не превышает размера окна
-        Assert.assertEquals(windowCapacity, actualSuccessfulAcquires);
+        assertEquals(windowCapacity, actualSuccessfulAcquires);
     }
 }
