@@ -5,7 +5,7 @@ public class SlidingWindowWrapper {
     SlidingWindow slidingWindow;
 
     public SlidingWindowWrapper(SlidingWindow slidingWindow) {
-        this.slidingWindow = new SlidingWindow(1,5);
+        this.slidingWindow = slidingWindow;
     }
 
     synchronized void tryAcquire(){

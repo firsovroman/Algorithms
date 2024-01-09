@@ -1,52 +1,53 @@
 package System_Design.SlidingWindow;
 
 
-import java.time.Instant;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.TimeUnit;
 
 public class SlidingWindow {
-    Queue<Long> slidingWindow;
-    int timeWindowInSeconds;
-    int bucketCapacity;
+    private final Queue<Long> window;
+    private final int timeWindowInTimeUnit;
+    private final int windowCapacity;
+    private final TimeUnit timeUnit;
 
-    public SlidingWindow(int timeWindowInMinute, int bucketCapacity) {
-        this.timeWindowInSeconds = timeWindowInMinute;
-        this.bucketCapacity = bucketCapacity;
-        slidingWindow = new ConcurrentLinkedQueue<>();
+    public SlidingWindow(int timeWindowInTimeUnit, int windowCapacity, TimeUnit timeUnit) {
+        this.timeWindowInTimeUnit = timeWindowInTimeUnit;
+        this.windowCapacity = windowCapacity;
+        this.timeUnit = timeUnit;
+        window = new ConcurrentLinkedQueue<>();
     }
 
-    synchronized public boolean grantAccess() {
-        long currentTimeMS = Instant.now().toEpochMilli();
-        removeOutdatedQueueItems(currentTimeMS);
-        if (slidingWindow.size() < bucketCapacity) {
-            slidingWindow.offer(currentTimeMS);
+    public synchronized boolean grantAccess() {
+        long currentTimeNS = System.nanoTime();
+        removeOutdatedQueueItems(currentTimeNS);
+        if (window.size() < windowCapacity) {
+            window.offer(currentTimeNS);
             return true;
         }
         return false;
     }
 
     private void removeOutdatedQueueItems(long currentTime) {
-        if (slidingWindow.isEmpty()) {
+        if (window.isEmpty()) {
             return;
         }
 
         // проверяю время крайнего в очереди
-        long calculatedTime = TimeUnit.MILLISECONDS.toSeconds(currentTime - slidingWindow.peek());
+        long calculatedTime = timeUnit.convert(currentTime - window.peek(), TimeUnit.NANOSECONDS);
 
-        while (calculatedTime >= timeWindowInSeconds) {
+        while (calculatedTime >= timeWindowInTimeUnit) {
             // если он вышел за рамку окна удаляю его из очереди
-            slidingWindow.poll();
+            window.poll();
 
             // очередь пуста можно выходить
-            if (slidingWindow.isEmpty()) {
+            if (window.isEmpty()) {
                 break;
             }
 
             // очередь не пуста
             // переопределяю время следующего элемента для проверки на устаревание
-            calculatedTime = TimeUnit.MILLISECONDS.toSeconds(currentTime - slidingWindow.peek());
+            calculatedTime = timeUnit.convert(currentTime - window.peek(), TimeUnit.NANOSECONDS);
         }
     }
 }
