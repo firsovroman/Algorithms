@@ -1,5 +1,6 @@
 package System_Design.SlidingWindow;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.util.Queue;
@@ -35,6 +36,33 @@ public class SlidingWindowRateLimiterTest {
         assertTrue(rateLimiter.tryAcquire());
     }
 
+
+    @Test
+    @Ignore("for manually start because it is long test")
+    public void testSlidingWindowRateLimiterForMinute() throws InterruptedException {
+        // создаем объект ограничитель с временным окном 1 МИНУТА и вместимостью окна 2 слота
+        SlidingWindowRateLimiter rateLimiter = new SlidingWindowRateLimiter(1, TimeUnit.MINUTES, 2);
+
+        // получаем первый доступ
+        assertTrue(rateLimiter.tryAcquire());
+
+        // ждем 10 секунд и получаем второй доступ
+        Thread.sleep(10_000);
+        assertTrue(rateLimiter.tryAcquire());
+
+        // проверяем что получить доступ после заполнения окна не получится
+        assertFalse(rateLimiter.tryAcquire());
+
+        // ждем 51 секунду, (этого достаточно чтобы освободился первый слот, но не достаточно чтобы освободился второй)
+        Thread.sleep(51_000);
+        assertTrue(rateLimiter.tryAcquire());
+        assertFalse(rateLimiter.tryAcquire());
+
+        // Проверяем, что история выданных разрешений очищается после выхода за пределы окна
+        Thread.sleep(61_000);
+        assertTrue(rateLimiter.tryAcquire());
+        assertTrue(rateLimiter.tryAcquire());
+    }
 
     @Test
     public void testTryAcquireConcurrently() throws InterruptedException {
