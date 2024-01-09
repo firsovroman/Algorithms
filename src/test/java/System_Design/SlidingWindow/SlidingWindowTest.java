@@ -24,11 +24,11 @@ public class SlidingWindowTest {
         System.out.println("=============");
 
 
-        // за 20 секунд окно успевает сместится и освободить 2 токена из 5
+        // за 20 секунд окно успевает сместится и освободить 2 элемента из 5
         Assert.assertTrue(slidingWindow.grantAccess());
         Assert.assertTrue(slidingWindow.grantAccess());
 
-        // а для третьего запроса токена нет
+        // а для третьего запроса элемента нет
         Assert.assertFalse(slidingWindow.grantAccess());
 
     }

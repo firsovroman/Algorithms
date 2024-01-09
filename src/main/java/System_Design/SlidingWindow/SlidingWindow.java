@@ -7,14 +7,14 @@ import java.util.concurrent.TimeUnit;
 
 public class SlidingWindow {
     private final Queue<Long> window;
-    private final int timeWindowInTimeUnit;
-    private final int windowCapacity;
+    private final int timeWindow;
     private final TimeUnit timeUnit;
+    private final int windowCapacity;
 
-    public SlidingWindow(int timeWindowInTimeUnit, int windowCapacity, TimeUnit timeUnit) {
-        this.timeWindowInTimeUnit = timeWindowInTimeUnit;
-        this.windowCapacity = windowCapacity;
+    public SlidingWindow(int timeWindow, int windowCapacity, TimeUnit timeUnit) {
+        this.timeWindow = timeWindow;
         this.timeUnit = timeUnit;
+        this.windowCapacity = windowCapacity;
         window = new ConcurrentLinkedQueue<>();
     }
 
@@ -36,7 +36,7 @@ public class SlidingWindow {
         // проверяю время крайнего в очереди
         long calculatedTime = timeUnit.convert(currentTime - window.peek(), TimeUnit.NANOSECONDS);
 
-        while (calculatedTime >= timeWindowInTimeUnit) {
+        while (calculatedTime >= timeWindow) {
             // если он вышел за рамку окна удаляю его из очереди
             window.poll();
 
