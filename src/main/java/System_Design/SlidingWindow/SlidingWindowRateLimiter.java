@@ -5,17 +5,17 @@ import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.TimeUnit;
 
-public class SlidingWindow {
+public class SlidingWindowRateLimiter {
     private final Queue<Long> window;
     private final int timeWindow;
     private final TimeUnit timeUnit;
     private final int windowCapacity;
 
-    public SlidingWindow(int timeWindow, int windowCapacity, TimeUnit timeUnit) {
+    public SlidingWindowRateLimiter(int timeWindow, TimeUnit timeUnit, int windowCapacity) {
         this.timeWindow = timeWindow;
         this.timeUnit = timeUnit;
         this.windowCapacity = windowCapacity;
-        window = new ConcurrentLinkedQueue<>();
+        this.window = new ConcurrentLinkedQueue<>();
     }
 
     public synchronized boolean grantAccess() {

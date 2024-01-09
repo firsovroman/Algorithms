@@ -8,15 +8,15 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
-public class SlidingWindowTest {
+public class SlidingWindowRateLimiterTest {
 
     @Test
     public void testGrantAccess() throws InterruptedException {
 
-        SlidingWindow slidingWindow = new SlidingWindow(60,5, TimeUnit.SECONDS);
+        SlidingWindowRateLimiter slidingWindowRateLimiter = new SlidingWindowRateLimiter(60, TimeUnit.SECONDS, 5);
 
         for (int i = 0; i < 5; i++) {
-            System.out.println(slidingWindow.grantAccess() + " - " + Instant.now());
+            System.out.println(slidingWindowRateLimiter.grantAccess() + " - " + Instant.now());
             Thread.sleep(15_000);
         }
 
@@ -25,21 +25,20 @@ public class SlidingWindowTest {
 
 
         // за 20 секунд окно успевает сместится и освободить 2 элемента из 5
-        Assert.assertTrue(slidingWindow.grantAccess());
-        Assert.assertTrue(slidingWindow.grantAccess());
+        Assert.assertTrue(slidingWindowRateLimiter.grantAccess());
+        Assert.assertTrue(slidingWindowRateLimiter.grantAccess());
 
         // а для третьего запроса элемента нет
-        Assert.assertFalse(slidingWindow.grantAccess());
+        Assert.assertFalse(slidingWindowRateLimiter.grantAccess());
 
     }
-
 
 
     @Test
     public void concurrencyTestGrantAccess() {
 
-        SlidingWindow slidingWindow = new SlidingWindow(1,5, TimeUnit.SECONDS);
-        SlidingWindowWrapper wrapper = new SlidingWindowWrapper(slidingWindow);
+        SlidingWindowRateLimiter slidingWindowRateLimiter = new SlidingWindowRateLimiter(1, TimeUnit.SECONDS, 5);
+        SlidingWindowWrapper wrapper = new SlidingWindowWrapper(slidingWindowRateLimiter);
 
         ExecutorService executors = Executors.newFixedThreadPool(12);
         for (int i = 0; i < 12; i++) {

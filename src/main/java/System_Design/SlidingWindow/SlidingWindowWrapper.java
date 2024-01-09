@@ -2,14 +2,14 @@ package System_Design.SlidingWindow;
 
 public class SlidingWindowWrapper {
 
-    SlidingWindow slidingWindow;
+    SlidingWindowRateLimiter slidingWindowRateLimiter;
 
-    public SlidingWindowWrapper(SlidingWindow slidingWindow) {
-        this.slidingWindow = slidingWindow;
+    public SlidingWindowWrapper(SlidingWindowRateLimiter slidingWindowRateLimiter) {
+        this.slidingWindowRateLimiter = slidingWindowRateLimiter;
     }
 
     synchronized void tryAcquire(){
-        if(slidingWindow.grantAccess()){
+        if(slidingWindowRateLimiter.grantAccess()){
             System.out.println(Thread.currentThread().getName() + " -> able to access the application");
         }else{
             System.out.println(Thread.currentThread().getName() + " -> Too many request, Please try after some time");
