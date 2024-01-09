@@ -75,7 +75,7 @@ public class SlidingWindowRateLimiterTest {
         SlidingWindowRateLimiter rateLimiter = new SlidingWindowRateLimiter(timeWindow, TimeUnit.SECONDS, windowCapacity);
 
         // создание нескольких потоков для одновременной попытки получения разрешений
-        int threadCount = 10;
+        int threadCount = 12;
         ExecutorService executor = Executors.newFixedThreadPool(threadCount);
         CountDownLatch latch = new CountDownLatch(threadCount);
 
