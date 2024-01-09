@@ -9,7 +9,7 @@ public class SlidingWindowWrapper {
     }
 
     synchronized void tryAcquire(){
-        if(slidingWindowRateLimiter.grantAccess()){
+        if(slidingWindowRateLimiter.acquirePermission()){
             System.out.println(Thread.currentThread().getName() + " -> able to access the application");
         }else{
             System.out.println(Thread.currentThread().getName() + " -> Too many request, Please try after some time");

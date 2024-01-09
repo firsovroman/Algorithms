@@ -16,7 +16,7 @@ public class SlidingWindowRateLimiterTest {
         SlidingWindowRateLimiter slidingWindowRateLimiter = new SlidingWindowRateLimiter(60, TimeUnit.SECONDS, 5);
 
         for (int i = 0; i < 5; i++) {
-            System.out.println(slidingWindowRateLimiter.grantAccess() + " - " + Instant.now());
+            System.out.println(slidingWindowRateLimiter.acquirePermission() + " - " + Instant.now());
             Thread.sleep(15_000);
         }
 
@@ -25,11 +25,11 @@ public class SlidingWindowRateLimiterTest {
 
 
         // за 20 секунд окно успевает сместится и освободить 2 элемента из 5
-        Assert.assertTrue(slidingWindowRateLimiter.grantAccess());
-        Assert.assertTrue(slidingWindowRateLimiter.grantAccess());
+        Assert.assertTrue(slidingWindowRateLimiter.acquirePermission());
+        Assert.assertTrue(slidingWindowRateLimiter.acquirePermission());
 
         // а для третьего запроса элемента нет
-        Assert.assertFalse(slidingWindowRateLimiter.grantAccess());
+        Assert.assertFalse(slidingWindowRateLimiter.acquirePermission());
 
     }
 
