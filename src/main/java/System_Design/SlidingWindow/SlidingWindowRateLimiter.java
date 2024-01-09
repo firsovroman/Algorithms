@@ -6,7 +6,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.TimeUnit;
 
 public class SlidingWindowRateLimiter {
-    private final Queue<Long> queueItems;
+    private final Queue<Long> permissionItems;
     private final int timeWindow;
     private final TimeUnit timeUnit;
     private final int windowCapacity;
@@ -15,7 +15,7 @@ public class SlidingWindowRateLimiter {
         this.timeWindow = timeWindow;
         this.timeUnit = timeUnit;
         this.windowCapacity = windowCapacity;
-        this.queueItems = new ConcurrentLinkedQueue<>();
+        this.permissionItems = new ConcurrentLinkedQueue<>();
     }
 
     /**
@@ -24,11 +24,11 @@ public class SlidingWindowRateLimiter {
      * @return - true, если в окне есть свободные слоты (разрешение получено), и
      *           false, если окно переполнено на текущий момент времени (разрешение отклонено).
      */
-    public synchronized boolean acquirePermission() {
+    public synchronized boolean tryAcquire() {
         long currentTimeNS = System.nanoTime();
-        removeOutdatedQueueItems(currentTimeNS);
-        if (queueItems.size() < windowCapacity) {
-            queueItems.offer(currentTimeNS);
+        removeOutdatedPermissionItems(currentTimeNS);
+        if (permissionItems.size() < windowCapacity) {
+            permissionItems.offer(currentTimeNS);
             return true;
         }
         return false;
@@ -39,26 +39,26 @@ public class SlidingWindowRateLimiter {
      *
      * @param currentTime - текущее время (наносекунды).
      */
-    private void removeOutdatedQueueItems(long currentTime) {
-        if (queueItems.isEmpty()) {
+    private void removeOutdatedPermissionItems(long currentTime) {
+        if (permissionItems.isEmpty()) {
             return;
         }
 
         // дельта текущего времени и времени крайнего элемента в очереди
-        long delta = timeUnit.convert(currentTime - queueItems.peek(), TimeUnit.NANOSECONDS);
+        long delta = timeUnit.convert(currentTime - permissionItems.peek(), TimeUnit.NANOSECONDS);
 
         while (delta >= timeWindow) {
             // если крайний элемент вышел за рамку окна удаляем его из очереди
-            queueItems.poll();
+            permissionItems.poll();
 
             // очередь пуста можно выходить
-            if (queueItems.isEmpty()) {
+            if (permissionItems.isEmpty()) {
                 break;
             }
 
             // очередь не пуста
             // переопределяем время следующего элемента для проверки на устаревание
-            delta = timeUnit.convert(currentTime - queueItems.peek(), TimeUnit.NANOSECONDS);
+            delta = timeUnit.convert(currentTime - permissionItems.peek(), TimeUnit.NANOSECONDS);
         }
     }
 }
