@@ -4,9 +4,8 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import java.time.Instant;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
+import java.util.Queue;
+import java.util.concurrent.*;
 
 public class SlidingWindowRateLimiterTest {
 
@@ -35,16 +34,44 @@ public class SlidingWindowRateLimiterTest {
 
 
     @Test
-    public void concurrencyTestGrantAccess() {
+    public void testTryAcquireConcurrently() throws InterruptedException {
+        // попытки получения разрешения
+        Queue<Boolean> permissionAcquisitionAttempts = new ConcurrentLinkedQueue<>();
 
-        SlidingWindowRateLimiter slidingWindowRateLimiter = new SlidingWindowRateLimiter(1, TimeUnit.SECONDS, 5);
-        SlidingWindowWrapper wrapper = new SlidingWindowWrapper(slidingWindowRateLimiter);
+        // создание SlidingWindowRateLimiter
+        int timeWindow = 1; // временное окно в секундах
+        int windowCapacity = 5; // емкость окна
+        SlidingWindowRateLimiter rateLimiter = new SlidingWindowRateLimiter(timeWindow, TimeUnit.SECONDS, windowCapacity);
 
-        ExecutorService executors = Executors.newFixedThreadPool(12);
-        for (int i = 0; i < 12; i++) {
-            executors.execute(wrapper::tryAcquire);
+        // создание нескольких потоков для одновременной попытки получения разрешений
+        int threadCount = 10;
+        ExecutorService executor = Executors.newFixedThreadPool(threadCount);
+        CountDownLatch latch = new CountDownLatch(threadCount);
+
+        // каждый поток будет пытаться получить разрешение
+        for (int i = 0; i < threadCount; i++) {
+            executor.submit(() -> {
+                try {
+                    // Потоки пытаются получить разрешение
+                    boolean acquired = rateLimiter.tryAcquire();
+                    permissionAcquisitionAttempts.add(acquired);
+                } finally {
+                    latch.countDown();
+                }
+            });
         }
-        executors.shutdown();
 
+        // ожидание завершения всех потоков
+        latch.await();
+        executor.shutdown();
+
+        // выводим список попыток для наглядности
+        System.out.println(permissionAcquisitionAttempts);
+
+        // считаем выданные разрешения
+        long actualSuccessfulAcquires = permissionAcquisitionAttempts.stream().filter(Boolean::booleanValue).count();
+
+        // количество выданных разрешений не превышает размера окна
+        Assert.assertEquals(windowCapacity, actualSuccessfulAcquires);
     }
 }

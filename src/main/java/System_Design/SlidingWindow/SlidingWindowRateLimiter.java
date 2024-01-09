@@ -6,7 +6,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.TimeUnit;
 
 public class SlidingWindowRateLimiter {
-    private final Queue<Long> permissionItems;
+    private final Queue<Long> grantedPermissionHistory;
     private final int timeWindow;
     private final TimeUnit timeUnit;
     private final int windowCapacity;
@@ -15,50 +15,49 @@ public class SlidingWindowRateLimiter {
         this.timeWindow = timeWindow;
         this.timeUnit = timeUnit;
         this.windowCapacity = windowCapacity;
-        this.permissionItems = new ConcurrentLinkedQueue<>();
+        this.grantedPermissionHistory = new ConcurrentLinkedQueue<>();
     }
 
     /**
-     * Получить разрешение.
+     * Пытается получить разрешение на текущий момент времени.
      *
-     * @return - true, если в окне есть свободные слоты (разрешение получено), и
-     *           false, если окно переполнено на текущий момент времени (разрешение отклонено).
+     * @return true, если доступны свободные слоты разрешений; в противном случае - false.
      */
     public synchronized boolean tryAcquire() {
         long currentTimeNS = System.nanoTime();
-        removeOutdatedPermissionItems(currentTimeNS);
-        if (permissionItems.size() < windowCapacity) {
-            permissionItems.offer(currentTimeNS);
+        removeOutdatedPermissions(currentTimeNS);
+        if (grantedPermissionHistory.size() < windowCapacity) {
+            grantedPermissionHistory.offer(currentTimeNS);
             return true;
         }
         return false;
     }
 
     /**
-     * Очистить очередь от устаревших элементов вышедших за рамку окна.
+     * Очистить очередь от устаревших разрешений вышедших (по времени) за рамку окна.
      *
-     * @param currentTime - текущее время (наносекунды).
+     * @param currentTimeNS - текущее время.
      */
-    private void removeOutdatedPermissionItems(long currentTime) {
-        if (permissionItems.isEmpty()) {
+    private void removeOutdatedPermissions(long currentTimeNS) {
+        if (grantedPermissionHistory.isEmpty()) {
             return;
         }
 
-        // дельта текущего времени и времени крайнего элемента в очереди
-        long delta = timeUnit.convert(currentTime - permissionItems.peek(), TimeUnit.NANOSECONDS);
+        // рассчитываем временную разницу между текущим временем и временем выдачи самого старого разрешения в очереди
+        long delta = timeUnit.convert(currentTimeNS - grantedPermissionHistory.peek(), TimeUnit.NANOSECONDS);
 
         while (delta >= timeWindow) {
-            // если крайний элемент вышел за рамку окна удаляем его из очереди
-            permissionItems.poll();
+            // если самое старое разрешение вышло за рамку окна, то удаляем его из очереди выданных разрешений
+            grantedPermissionHistory.poll();
 
             // очередь пуста можно выходить
-            if (permissionItems.isEmpty()) {
+            if (grantedPermissionHistory.isEmpty()) {
                 break;
             }
 
             // очередь не пуста
-            // переопределяем время следующего элемента для проверки на устаревание
-            delta = timeUnit.convert(currentTime - permissionItems.peek(), TimeUnit.NANOSECONDS);
+            // переопределяем дельту используя следующее (пo cтapшинcтвy) время выданного разрешения
+            delta = timeUnit.convert(currentTimeNS - grantedPermissionHistory.peek(), TimeUnit.NANOSECONDS);
         }
     }
 }
