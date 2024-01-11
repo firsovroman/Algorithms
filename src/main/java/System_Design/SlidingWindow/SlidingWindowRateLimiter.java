@@ -1,10 +1,14 @@
 package System_Design.SlidingWindow;
 
 
+import java.util.LinkedList;
 import java.util.Queue;
-import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.TimeUnit;
 
+/**
+ * RateLimiter основанный на алгоритме Sliding Window (скользящее окно).
+ *
+ */
 public class SlidingWindowRateLimiter {
     private final Queue<Long> grantedPermissionHistory;
     private final int timeWindow;
@@ -15,7 +19,7 @@ public class SlidingWindowRateLimiter {
         this.timeWindow = timeWindow;
         this.timeUnit = timeUnit;
         this.windowCapacity = windowCapacity;
-        this.grantedPermissionHistory = new ConcurrentLinkedQueue<>();
+        this.grantedPermissionHistory = new LinkedList<>();
     }
 
     /**
@@ -27,7 +31,7 @@ public class SlidingWindowRateLimiter {
         long currentTimeNS = System.nanoTime();
         removeOutdatedPermissions(currentTimeNS);
         if (grantedPermissionHistory.size() < windowCapacity) {
-            grantedPermissionHistory.offer(currentTimeNS);
+            grantedPermissionHistory.add(currentTimeNS);
             return true;
         }
         return false;
