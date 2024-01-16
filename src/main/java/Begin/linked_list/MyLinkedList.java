@@ -1,26 +1,7 @@
 package Begin.linked_list;
 
-/**
- * Your MyLinkedList object will be instantiated and called as such:
- * MyLinkedList obj = new MyLinkedList();
- * int param_1 = obj.get(index);
- * obj.addAtHead(val);
- * obj.addAtTail(val);
- * obj.addAtIndex(index,val);
- * obj.deleteAtIndex(index);
- */
-
-class Node {
-    int val;
-    Node next;
-
-    public Node(int val) {
-        this.val = val;
-    }
-}
-
 public class MyLinkedList {
-    private Node head;
+    private ListNode head;
     private int size;
 
     public MyLinkedList() {
@@ -28,8 +9,8 @@ public class MyLinkedList {
         this.size = 0;
     }
 
-    public Node getNode(int index) {
-        Node current = head;
+    public ListNode getNode(int index) {
+        ListNode current = head;
         for (int i = 0; i < index; i++) {
             current = current.next;
         }
@@ -44,19 +25,19 @@ public class MyLinkedList {
     }
 
     public void addAtHead(int val) {
-        Node newNode = new Node(val);
+        ListNode newNode = new ListNode(val);
         newNode.next = head;
         head = newNode;
         size++;
     }
 
     public void addAtTail(int val) {
-        Node newNode = new Node(val);
+        ListNode newNode = new ListNode(val);
 
         if (head == null) {
             head = newNode;
         } else {
-            Node current = head;
+            ListNode current = head;
             while (current.next != null) {
                 current = current.next;
             }
@@ -76,8 +57,8 @@ public class MyLinkedList {
         } else if (index == size) {
             addAtTail(val);
         } else {
-            Node newNode = new Node(val);
-            Node current = head;
+            ListNode newNode = new ListNode(val);
+            ListNode current = head;
 
             for (int i = 0; i < index - 1; i++) {
                 current = current.next;
@@ -97,7 +78,7 @@ public class MyLinkedList {
         if (index == 0) {
             head = head.next;
         } else {
-            Node current = head;
+            ListNode current = head;
 
             for (int i = 0; i < index - 1; i++) {
                 current = current.next;
