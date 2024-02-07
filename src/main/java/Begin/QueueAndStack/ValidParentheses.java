@@ -17,6 +17,9 @@ public class ValidParentheses {
         String s4 = "((";
         System.out.println(isValid(s4)); // false
 
+        String s5 = "([{}])";
+        System.out.println(isValid(s5)); // true
+
 
     }
 
