@@ -1,5 +1,7 @@
 package Begin.QueueAndStack;
 
+import java.util.Stack;
+
 public class ImplementQueueUsingStacks {
 
     public static void main(String[] args) {
@@ -12,24 +14,39 @@ public class ImplementQueueUsingStacks {
 
     static class MyQueue {
 
-        public MyQueue() {
+        private Stack<Integer> inStack;
+        private Stack<Integer> outStack;
 
+
+        public MyQueue() {
+            inStack = new Stack<>();
+            outStack = new Stack<>();
         }
 
         public void push(int x) {
-
+            inStack.push(x);
         }
 
         public int pop() {
-            return 0;
+            if (outStack.isEmpty()) {
+                while (!inStack.isEmpty()) {
+                    outStack.push(inStack.pop());
+                }
+            }
+            return outStack.pop();
         }
 
         public int peek() {
-            return 0;
+            if (outStack.isEmpty()) {
+                while (!inStack.isEmpty()) {
+                    outStack.push(inStack.pop());
+                }
+            }
+            return outStack.peek();
         }
 
         public boolean empty() {
-            return true;
+            return inStack.isEmpty() && outStack.isEmpty();
         }
     }
 }
