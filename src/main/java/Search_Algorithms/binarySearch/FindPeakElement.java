@@ -1,4 +1,4 @@
-package binarySearch;
+package Search_Algorithms.binarySearch;
 
 public class FindPeakElement {
 
