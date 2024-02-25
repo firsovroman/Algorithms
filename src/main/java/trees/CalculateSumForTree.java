@@ -1,4 +1,4 @@
-package tasks_about_tree;
+package trees;
 
 
 /*
