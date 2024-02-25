@@ -1,4 +1,4 @@
-package data_structures.queue_and_stack;
+package trees;
 
 import java.util.*;
 
@@ -23,7 +23,7 @@ public class BinaryTreeInorderTraversal {
     }
 
 
-    //  Инфиксный обход (inorder) - который сначала посещает левое поддерево, затем корень и, наконец, правое поддерево.
+    //  Обход по порядку (inorder) - который сначала посещает левое поддерево, затем корень и, наконец, правое поддерево.
     public static List<Integer> inorderTraversal2(TreeNode root) {
         List<Integer> result = new ArrayList<>();
         Stack<TreeNode> stack = new Stack<>();
