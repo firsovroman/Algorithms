@@ -2,6 +2,8 @@ package trees;
 
 import java.util.*;
 
+//  Обход в порядке возрастания (inorder) - который сначала посещает левое поддерево, затем корень и, наконец, правое поддерево.
+
 public class BinaryTreeInorderTraversal {
 
     public static void main(String[] args) {
