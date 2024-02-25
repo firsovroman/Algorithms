@@ -1,7 +1,6 @@
 package trees;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Stack;
 
@@ -9,16 +8,22 @@ import java.util.Stack;
 public class BinaryTreePreorderTraversal {
 
     public static void main(String[] args) {
-        TreeNode one = new TreeNode(1);
-        TreeNode two = new TreeNode(2);
-        TreeNode three = new TreeNode(3);
-        TreeNode four = new TreeNode(4);
+        // Пример использования:
+        /*
+                    1
+                   / \
+                  2   3
+                 / \
+                4   5
+        */
+        TreeNode root = new TreeNode(1);
+        root.left = new TreeNode(2);
+        root.right = new TreeNode(3);
+        root.left.left = new TreeNode(4);
+        root.left.right = new TreeNode(5);
 
-        one.left = four;
-        one.right = three;
 
-        List<Integer> result = preorderTraversal(one);
-        System.out.println(result);
+        System.out.println(preorderTraversal(root)); // [1, 2, 4, 5, 3]
     }
 
 

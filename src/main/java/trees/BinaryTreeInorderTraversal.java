@@ -1,27 +1,29 @@
 package trees;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Stack;
 
 //  Обход в порядке возрастания (inorder) - который сначала посещает левое поддерево, затем корень и, наконец, правое поддерево.
 
 public class BinaryTreeInorderTraversal {
 
     public static void main(String[] args) {
-
+        // Пример использования:
+        /*
+                    1
+                   / \
+                  2   3
+                 / \
+                4   5
+        */
         TreeNode root = new TreeNode(1);
-        TreeNode two = new TreeNode(2);
-        TreeNode two2 = new TreeNode(2);
-        TreeNode three = new TreeNode(3);
-        TreeNode four = new TreeNode(4);
-        TreeNode four2 = new TreeNode(4);
-        TreeNode four3 = new TreeNode(4);
+        root.left = new TreeNode(2);
+        root.right = new TreeNode(3);
+        root.left.left = new TreeNode(4);
+        root.left.right = new TreeNode(5);
 
-
-        root.left = null;
-        root.right = two2;
-        two2.left = three;
-
-        System.out.println(inorderTraversal2(root));
+        System.out.println(inorderTraversal2(root)); // [4, 2, 5, 1, 3]
     }
 
 
@@ -45,21 +47,3 @@ public class BinaryTreeInorderTraversal {
 
 }
 
-class TreeNode {
-    int val;
-    TreeNode left;
-    TreeNode right;
-
-    TreeNode() {
-    }
-
-    TreeNode(int val) {
-        this.val = val;
-    }
-
-    TreeNode(int val, TreeNode left, TreeNode right) {
-        this.val = val;
-        this.left = left;
-        this.right = right;
-    }
-}
