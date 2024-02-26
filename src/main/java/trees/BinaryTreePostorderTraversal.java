@@ -10,7 +10,6 @@ public class BinaryTreePostorderTraversal {
 
 
     public static void main(String[] args) {
-        // Пример использования:
         /*
                     1
                    / \

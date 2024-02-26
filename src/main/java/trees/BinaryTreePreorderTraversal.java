@@ -8,7 +8,6 @@ import java.util.Stack;
 public class BinaryTreePreorderTraversal {
 
     public static void main(String[] args) {
-        // Пример использования:
         /*
                     1
                    / \

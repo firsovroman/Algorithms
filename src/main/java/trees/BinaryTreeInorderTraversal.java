@@ -9,7 +9,6 @@ import java.util.Stack;
 public class BinaryTreeInorderTraversal {
 
     public static void main(String[] args) {
-        // Пример использования:
         /*
                     1
                    / \
