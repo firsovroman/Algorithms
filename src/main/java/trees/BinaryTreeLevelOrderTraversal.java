@@ -23,7 +23,7 @@ public class BinaryTreeLevelOrderTraversal {
         root.left.left = new TreeNode(4);
         root.left.right = new TreeNode(5);
 
-        System.out.println(levelOrder(root));
+        System.out.println(levelOrder(root)); // [[1], [2, 3], [4, 5]]
     }
 
     public static List<List<Integer>> levelOrder(TreeNode root) {
