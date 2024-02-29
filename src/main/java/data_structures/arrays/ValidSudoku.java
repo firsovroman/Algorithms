@@ -35,7 +35,6 @@ public class ValidSudoku {
     }
 
     public static boolean isValidSudoku(char[][] board) {
-        // Create sets to store digits in rows, columns, and 3x3 sub-boxes
         Set<Character>[] rows = new HashSet[9];
         Set<Character>[] cols = new HashSet[9];
         Set<Character>[] boxes = new HashSet[9];
@@ -46,7 +45,6 @@ public class ValidSudoku {
             boxes[i] = new HashSet<>();
         }
 
-        // Traverse the board
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
                 char num = board[i][j];
