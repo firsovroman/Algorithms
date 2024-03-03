@@ -1,4 +1,3 @@
 # Algorithms
 
-In this repository, examples for:
-
+В этом репозитории решенные мной алгоритмические задачи.
