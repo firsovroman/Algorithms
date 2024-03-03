@@ -1,31 +1,34 @@
 package data_structures.array_and_string;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 public class ValidAnagram {
 
     public static void main(String[] args) {
-        String s = "anagram", t = "nagaram";
-        System.out.println(isAnagram(s, t));
+
+        String s1 = "anagram", t1 = "nagaram";
+        String s2 = "aacc", t2 = "ccac";
+        System.out.println(isAnagram(s1, t1)); // true
+        System.out.println(isAnagram(s2, t2)); // false
     }
 
     public static boolean isAnagram(String s, String t) {
-
-        if(s.length() != t.length()) {
+        if (s.length() != t.length()) {
             return false;
         }
 
-        Set<Character> set = new HashSet<>();
-        for(char ch : s.toCharArray()) {
-            set.add(ch);
-        }
+        char[] sArr = s.toCharArray();
+        char[] tArr = t.toCharArray();
 
-        for(char ch : t.toCharArray()) {
-            if(!set.contains(ch)) {
+        Arrays.sort(sArr);
+        Arrays.sort(tArr);
+
+        for (int i = 0; i < s.length(); i++) {
+            if(sArr[i] != tArr[i]) {
                 return false;
             }
         }
+
         return true;
     }
 
