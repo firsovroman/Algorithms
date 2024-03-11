@@ -13,4 +13,5 @@
 * Search Algorithms
 * Sorting Algorithms
 * System Design
+* Dynamic Programming
 * Trees
