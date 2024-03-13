@@ -4,7 +4,7 @@ public class HammingDistance {
 
     public static void main(String[] args) {
         int x1 = 1, y1 = 4;
-        System.out.println("Hamming distance between " + x1 + " and " + y1 + " is: " + hammingDistance(x1, y1));
+        System.out.println("Hamming distance between " + x1 + " and " + y1 + " is: " + hammingDistance(x1, y1)); // (0 0 0 1)  и  (0 1 0 0)
 
         int x2 = 3, y2 = 1;
         System.out.println("Hamming distance between " + x2 + " and " + y2 + " is: " + hammingDistance(x2, y2));
