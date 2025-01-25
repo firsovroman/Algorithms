@@ -2,6 +2,8 @@ import data_structures.linked_list.ListNode;
 
 import java.util.*;
 
+/** Шпаргалка по решению алгоритмических задач */
+
 public class CodeTemplates {
 
     private static final int MINIMUM_POSSIBLE_ANSWER = 0;
